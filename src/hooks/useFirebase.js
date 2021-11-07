@@ -1,6 +1,6 @@
 import initializeFirebase from "../Pages/Login/Login/Firebase/firebase.init";
 import { useState, useEffect } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile, signOut } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, updateProfile, signOut, getIdToken } from "firebase/auth";
 
 
 // initialize firebase app
@@ -10,6 +10,7 @@ const useFirebase = () => {
     const [user, setUser] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [authError, setAuthError] = useState('');
+    const [token, setToken] = useState('');
     const [admin, setAdmin] = useState(false);
 
     const auth = getAuth();
@@ -72,6 +73,10 @@ const useFirebase = () => {
         const unsubscribed = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
+                getIdToken(user)
+                    .then(idToken => {
+                        setToken(idToken);
+                    })
             } else {
                 setUser({})
             }
@@ -92,7 +97,7 @@ const useFirebase = () => {
 
     const saveUser = (email, displayName, method) => {
         const user = { email, displayName }
-        fetch('http://localhost:5000/users', {
+        fetch('https://doctors-portal-21k-server.herokuapp.com/users', {
             method: method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
@@ -102,7 +107,7 @@ const useFirebase = () => {
     }
     // check admin or not
     useEffect(() => {
-        fetch(`http://localhost:5000/users/${user?.email}`)
+        fetch(`https://doctors-portal-21k-server.herokuapp.com/users/${user?.email}`)
             .then(res => res.json())
             .then(data => setAdmin(data.admin))
     }, [user?.email])
@@ -117,6 +122,7 @@ const useFirebase = () => {
         loginUser,
         signInWithGoogle,
         logout,
+        token
     }
 }
 

@@ -43,7 +43,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBooki
             date: date.toLocaleDateString()
         }
         // send to the server
-        fetch('http://localhost:5000/appointments', {
+        fetch('https://doctors-portal-21k-server.herokuapp.com/appointments', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -107,7 +107,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBooki
                             id="outlined-size-small"
                             name="phone"
                             onBlur={handleOnBlur}
-                            defaultValue="Phone Number"
+                            placeholder="Phone Number"
                             size="small"
                         />
                         <TextField
