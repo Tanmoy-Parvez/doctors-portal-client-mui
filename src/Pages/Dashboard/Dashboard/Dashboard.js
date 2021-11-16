@@ -17,11 +17,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
     Link,
-    useParams,
     useRouteMatch
 } from "react-router-dom";
 import DashboardHome from '../DashboardHome/DashboardHome';
@@ -29,6 +27,7 @@ import MakeAdmin from '../MakeAdmin/MakeAdmin';
 import AddDoctor from '../AddDoctor/AddDoctor';
 import useAuth from '../../../hooks/useAuth';
 import AdminRoute from '../../Login/AdminRoute/AdminRoute';
+import Payment from '../../Payment/Payment';
 
 const drawerWidth = 200;
 
@@ -138,6 +137,9 @@ const Dashboard = (props) => {
                     </AdminRoute>
                     <AdminRoute path={`${path}/addDoctor`}>
                         <AddDoctor></AddDoctor>
+                    </AdminRoute>
+                    <AdminRoute path={`${path}/payment/:id`}>
+                        <Payment></Payment>
                     </AdminRoute>
                 </Switch>
 
